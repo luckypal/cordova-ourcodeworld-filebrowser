@@ -44,7 +44,9 @@ public class DialogShowPicker extends Activity{
 
             // Start single filepicker
             if (action.equals("showPicker")) {
+                i.putExtra(FilePickerActivity.EXTRA_SINGLE_CLICK, true);
                 i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
+                i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, false);
                 i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_FILE);
             // Start multi filepicker
             }else if(action.equals("showMultiFilepicker")){
