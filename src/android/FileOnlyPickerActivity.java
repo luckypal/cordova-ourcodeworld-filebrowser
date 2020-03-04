@@ -97,7 +97,7 @@ public class FileOnlyPickerActivity extends FilePickerActivity {
           String ext = getExtension(data).toLowerCase();
           ext = ext.substring(1, ext.length());
           Map<String, String> colors = new HashMap<String, String>();
-          colors.put("torrent", "#2dd36f");
+          colors.put("torrent", "#eb445a");
           colors.put("mp4", "#5260ff");
           colors.put("webm", "#3dc2ff");
           colors.put("mov", "#ffc409");
