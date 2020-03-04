@@ -31,7 +31,7 @@ public class DialogShowPicker extends Activity{
             String startDirectory = extras.getString("start_directory");
 
             Context context = getApplicationContext();
-            Intent i = new Intent(context, FilePickerActivity.class);
+            Intent i = new Intent(context, FileOnlyPickerActivity.class);
             i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true);
             i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
