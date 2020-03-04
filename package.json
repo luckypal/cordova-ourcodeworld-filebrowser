@@ -1,6 +1,6 @@
 {
   "name": "cordova-ourcodeworld-filebrowser",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Native file and folder browser for Android in Cordova",
   "main": "index.js",
   "scripts": {
