@@ -2,14 +2,10 @@ package com.ourcodeworld.plugins.filebrowser;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 import android.os.Environment;
 import androidx.annotation.*;
 import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
-import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,7 +35,7 @@ public class FileOnlyPickerActivity extends FilePickerActivity {
   public static class CustomFilePickerFragment extends FilePickerFragment {
 
       // File extension to filter on
-      private static final String[] EXTENSIONS = new String[] {".torrent",".mp4", ".webm", ".mov", ".mkv"};
+      private String[] EXTENSIONS_STRINGS = null;
 
       public Activity activity;
 
@@ -57,16 +53,21 @@ public class FileOnlyPickerActivity extends FilePickerActivity {
           if (i < 0) {
               return null;
           } else {
-              return path.substring(i);
+              return path.substring(i + 1);
           }
       }
 
       @Override
       protected boolean isItemVisible(final File file) {
+          if (EXTENSIONS_STRINGS == null) {
+              int resourceId = getActivity().getResources().getIdentifier("file_extensions_strings", "array", getActivity().getPackageName());
+              if (resourceId == 0) return false;
+              EXTENSIONS_STRINGS = getResources().getStringArray(resourceId);
+          }
           boolean ret = super.isItemVisible(file);
           if (ret && !isDir(file) && (mode == MODE_FILE || mode == MODE_FILE_AND_DIR)) {
               String ext = getExtension(file);
-              return ext != null && Arrays.asList(EXTENSIONS).contains(ext.toLowerCase());
+              return ext != null && Arrays.asList(EXTENSIONS_STRINGS).contains(ext.toLowerCase());
           }
           return ret;
       }
@@ -95,23 +96,16 @@ public class FileOnlyPickerActivity extends FilePickerActivity {
           ImageView icon = (ImageView)vh.icon;
           
           String ext = getExtension(data).toLowerCase();
-          ext = ext.substring(1, ext.length());
-          Map<String, String> colors = new HashMap<String, String>();
-          colors.put("torrent", "#eb445a");
-          colors.put("mp4", "#5260ff");
-          colors.put("webm", "#3dc2ff");
-          colors.put("mov", "#ffc409");
-          colors.put("mkv", "#92949c");
+          int colorResourceId = getActivity().getResources().getIdentifier(ext, "color", getActivity().getPackageName());
+          if (colorResourceId == 0) return;
 
-          String color = colors.get(ext);
-          if (color == null) return;
+          int color = getActivity().getResources().getColor(colorResourceId);
+          icon.setColorFilter(color);
 
           int resourceId = getActivity().getResources().getIdentifier(ext, "drawable", getActivity().getPackageName());
-          if (resourceId == 0) return;
-
-          icon.setImageResource(resourceId);
-          icon.setColorFilter(Color.parseColor(color));
-          vh.text.setTextColor(Color.parseColor("#f4f5f8"));
+          if (resourceId != 0) {
+            icon.setImageResource(resourceId);
+          }
         }
       }
   }
